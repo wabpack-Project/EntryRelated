@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script src="http://d.lc86.net/themes/simplicity/js/jquery-1.10.2.min.js?v=1.5.91509150450"></script>
+<script src="js/module0.js"></script>
+<script>
+// 上面的函数m1()和m2()，组成一个模块。使用的时候，直接调用就行了。
+// 这种做法的缺点很明显："污染"了全局变量，无法保证不与其他模块发生变量名冲突，而且模块成员之间看不出直接关系
+  m0_1();
+  m0_2();
+</script>
+
+<script src="js/module1.js"></script>
+<script>
+//都封装在module1对象里。使用的时候，就是调用这个对象的属性。
+module1.m1();
+module1.m2();
+// 这样的写法会暴露所有模块成员，内部状态可以被外部改写。比如，外部代码可以直接改变内部计数器的值。
+console.log(module1._count);
+module1._count = 5;
+console.log(module1._count);
+</script>
+
+<script src="js/module2.js"></script>
+<script>
+//可以达到不暴露私有成员的目的。
+// module2就是Javascript模块的基本写法
+module2.m1();
+module2.m2();
+console.info(module2._count); //undefined
+</script>
+
+<script src="js/module3.js"></script>
+<script>
+  // 上面的代码为module2模块添加了一个新方法m3()，然后返回新的module2模块。
+	module2.m4();
+		module2.m3();
+</script>
+
+<script src="js/module4.js"></script>
+<script>
+  // 放大模式只要执行自执行函数，就会被放大
+	module2.m5();
+	module2.m6();
+</script>
+
+<script src="js/module5.js"></script>
+<script>
+  // 在浏览器环境中，模块的各个部分通常都是从网上获取的，有时无法知道哪个部分会先加载。如果采用上一节的写法，第一个执行的部分有可能加载一个不存在空对象，这时就要采用"宽放大模式"。
+  // 与"放大模式"相比，＂宽放大模式＂就是"立即执行函数"的参数可以是空对象。
+	module2.m7();
+	module2.m8();
+		module5.m7();
+		module5.m8();
+</script>
+
+<script src="js/module6.js"></script>
+<script>
+// 独立性是模块的重要特点，模块内部最好不与程序的其他部分直接交互。
+// 为了在模块内部调用全局变量，必须显式地将其他变量输入模块。
+// 上面的module1模块需要使用jQuery库和YUI库，就把这两个库（其实是两个模块）当作参数输入module1。这样做除了保证模块的独立性，还使得模块之间的依赖关系变得明显
+module6.m9();
+module6.m10();
+</script>
+
+<script src="js/module7.js"></script>
+<script>
+	m0_1();
+	m0_2();
+</script>
+
+
+
+</body>
+</html>
