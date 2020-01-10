@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  // 1.
+  var person= {};
+  Object.defineProperty(person, "name", {
+	value: '张三1'
+  })
+  person.name = "李四";
+  console.log(1, person.name); // 张三
+  
+  // 2.
+  var person1= {};
+  Object.defineProperty(person1, "name", {
+	value: '张三2',
+	writable: true
+  })
+  person1.name = "李四";
+  console.log(2, person1.name); // 张三
+
+  // 3.
+  var person2= {};
+  Object.defineProperty(person2, "name", {
+	
+	writable: true,
+	configurable: false,
+	value: '张三3',
+	
+  
+  })
+  person2.name = "李四";
+  console.log(3, person2.name); // 张三
+  
+  
+  
+  
+</script>
+
+</body>
+</html>

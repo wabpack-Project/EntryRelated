@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="MyElement">111</div>
+
+<script>
+  (function(){
+	var current = null;
+	function init() {
+	  //...
+      console.log("init");
+	  change();
+	  verify();
+	}
+	function change() {
+	  //...
+	  console.log("change");
+	}
+	function verify() {
+	  //...
+	  console.log("verify");
+	}
+	init();
+  })();
+
+  myNameSpace = function() {
+	var current = null, aa = 1;
+	function init() {
+	  //...
+	  console.log(0, "init");
+	  change();
+	  verify();
+	}
+	function change() {
+	  //...
+	  console.log(0, "change");
+	}
+	function verify() {
+	  //...
+	  console.log(0, "verify");
+	}
+//所有需要在命名空间外调用的函数和属性都要写在return里面
+	return {
+	  current: current,
+      aa: aa,
+	  init: init,
+	  //甚至你可以为函数和属性命名一个别名
+	  set: change
+	};
+  };
+
+  myNameSpace().init();
+  console.log(myNameSpace().aa);
+  console.log(myNameSpace().current);
+
+  function init() {
+	var el = document.getElementById('MyElement');
+	el.onclick = function () {
+	  //……
+      console.log("绑定点击！");
+	}
+	el = null;
+  }
+  init();
+
+
+</script>
+
+</body>
+</html>

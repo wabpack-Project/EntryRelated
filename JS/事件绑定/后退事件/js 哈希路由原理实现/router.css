@@ -1,0 +1,27 @@
+header,footer{
+    height:5em;
+    background: #cba;
+    text-align: center;
+    line-height: 5em;
+}
+nav{
+    width:20%;
+    height:30em;
+    background: #391;
+    float:left;
+}
+li{
+    height:2em;
+}
+
+section{
+    width:80%;
+    background: #9a1;
+    height:30em;
+    float:right;
+    line-height: 2em;
+    text-align: center;
+}
+.clear{
+    clear:both;
+}

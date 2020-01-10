@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+	var obj1 = {'a': 'obj2','b':'2'};
+	var obj2 = {name: 'obj3'};
+	function extend() {
+		var length = arguments.length;
+		var target = arguments[0] || {};
+		if (typeof target != "object" && typeof target != "function") {
+			target = {};
+		}
+		if (length == 1) {
+			target = this;
+			// i--;
+		}
+		for (var i = 1; i < length; i++) {
+			var source = arguments[i];
+			for (var key in source) {
+				// 使用for in会遍历数组所有的可枚举属性，包括原型。
+				if (Object.prototype.hasOwnProperty.call(source, key)) {
+					target[key] = source[key];
+				}
+			}
+		}
+		return target;
+	}
+	
+	var cc = extend({
+      dd: function () {
+        console.log("dd");
+			}
+    });
+	// console.log(extend(obj1,obj2));
+    var aa = extend({}, obj1, obj2,{name:[1,2,3],value:4});
+		aa.value = 5;
+		aa.name = [8];
+		aa.a = 'obj45';
+    console.log(aa);
+    console.log(obj1);
+    console.log(obj2);
+    var bb = extend({});
+		console.log(bb);
+		var dd = extend();
+		console.log(dd);
+        ww= [1,2,3];
+        qq= [4,5,6];
+		var ff = extend({}, ww, qq);
+		console.log(ff);
+		console.log(ww);
+		console.log(qq);
+
+		function extend1(o,n,override) {
+			for(var key in n){
+				if(n.hasOwnProperty(key) && (!o.hasOwnProperty(key) || override)){
+					o[key]=n[key];
+				}
+			}
+			return o;
+		}
+		var opt = {
+		  aa: 11
+        };
+		var def = {
+          aa: 55,
+          bb: 22,
+          cc: 33
+        };
+		dd1 = extend1(opt, def, true);
+		dd1.aa = 33;
+		console.log("dd1", dd1);
+		console.log(def);
+		console.log(opt);
+		
+		var opt1 = {
+			aa: 11
+		};
+		var def1 = {
+			aa: 55,
+			bb: 22,
+			cc: 33
+		};
+		dd2 = extend1(opt1, def1);
+		dd2.aa = 88;
+		console.log("dd2", dd2);
+		console.log(def1);
+		console.log(opt1);
+  
+</script>
+
+</body>
+</html>

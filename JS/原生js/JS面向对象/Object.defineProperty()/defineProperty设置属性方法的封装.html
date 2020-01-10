@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  
+  Object.defineProperty(Object.prototype, "addKey", {
+	value: function (key, value, enumerable, writable, configurable) {
+	  if (!enumerable) enumerable = false;
+	  if (!writable) writable = false;
+	  if (!configurable) configurable = false;
+	  Object.defineProperty(this, key, {
+		value: value,
+		enumerable: enumerable,
+		writable: writable,
+		configurable: configurable
+	  })
+	}
+  })
+
+  var obj = {
+	a: 1,
+	b: 2
+  }
+  //测试数据
+  obj.addKey("c", 50, true, true);
+  console.log(obj);
+  obj.c = 60;
+  for (var key in obj) {
+	console.log(key, obj[key]);
+  }
+
+</script>
+
+</body>
+</html>

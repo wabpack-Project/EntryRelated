@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  // 定义父类
+  function Person( uName ){
+	this.skills = [ 'php', 'javascript' ];
+	this.userName = uName;
+  }
+  // 定义父类原型方法
+  Person.prototype.showUserName = function(){
+	return this.userName;
+  }
+  // 定义子类
+  function Teacher ( uName, time ){
+    // 构造函数继承
+	Person.call( this, uName );
+	// 子类新属性
+    this.time = time;
+  }
+  
+  // 原型式继承
+  function object( o ){
+	var G = function(){};
+	G.prototype = o;
+	return new G();
+  }
+  
+  /**
+   * 寄生式继承 继承原型
+   * 传递参数 teacher 子类
+   * 传递参数  person  父类
+   * */
+  function inheritPrototype(subObj, superObj ){
+    // 复制一份父类的原型副本保存在变量中
+	var proObj = object( superObj.prototype ); //复制父类superObj的原型对象
+    // console.log(proObj);
+	// 修正因为重写子类原型导致子类的constructor属性被修改
+    proObj.constructor = subObj; //constructor指向子类构造函数
+	// console.log(proObj);
+	// 设置子类的原型
+    subObj.prototype = proObj; //再把这个对象给子类的原型对象
+	// console.log(subObj);
+	// console.log(subObj.prototype);
+  }
+
+  // 定义子类新增原型方法
+  Teacher.prototype.showSkills = function () {
+	// console.log(this.time);
+	return this.showSkills;
+  }
+  
+  // 寄生式继承父类原型
+  inheritPrototype(Teacher, Person );
+
+  // 定义子类新增原型方法
+  Teacher.prototype.showTime = function () {
+	// console.log(this.time);
+	return this.time;
+  }
+  
+  
+  /**
+   * 子类新增原型方法需要先执行寄生式继承父类原型，不然子类新增方法是未定义
+   *
+   * */
+  // 创建两个测试原型
+  var oT1 = new Teacher( 'ghostwu1', 2013 );
+  oT1.skills.push( 'linux' );
+  oT1.skills = [];
+  var oT2 = new Teacher( 'ghostwu2', 2014 );
+  // console.log(0, oT2.skills ); //php,javascript
+  console.log(1, oT1.skills ); //php,javascript
+  console.log(2, oT2.skills ); //php,javascript
+  
+  // console.log( oT2.showUserName() ); //ghostwu
+
+  console.log(oT1.showUserName());
+  console.log(oT1.showTime());
+  
+  console.log(oT2.showUserName());
+  console.log(oT2.showTime());
+  console.log(oT1.showSkills());
+  console.log(oT2.showSkills());
+  
+  
+</script>
+
+</body>
+</html>

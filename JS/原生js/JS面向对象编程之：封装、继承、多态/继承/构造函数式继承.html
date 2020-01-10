@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  // 构造函数式继承 声明父类
+  function SuperClass(id) {
+    this.superValue = true;
+    // 引用类型共有属性
+    this.books = ["html", "js", "css"];
+    // 值类型共有属性
+    this.id = id;
+    // 构造函数共有方法
+    this.bookInfo = function (aa) {
+      console.log(aa);
+	}
+  }
+  
+  // 父类声明原型方法
+  SuperClass.prototype.showBooks = function () {
+    console.log(this.books);
+  }
+  
+  // 声明子类
+  function SubClass(id) {
+    // 继承父类
+	SuperClass.call(this, id);
+  }
+  
+  // 创建第一个子类的实例
+  var instance1 = new SubClass(10);
+  // 创建第二个子类的实例
+  var instance2 = new SubClass(11);
+  instance1.books.push("javascript1");
+  
+  console.log(instance1.books);
+  console.log(instance1.id);
+  console.log(instance2.books);
+  console.log(instance2.id);
+  
+  instance1.bookInfo("哈哈哈！");
+  instance1.showBooks();
+  
+  /**
+   * 子类使用call只继承了父类的属性并没有继承方法，要想继承需要写在构造函数内部
+   *
+   * */
+ 
+  
+  
+  
+  
+  
+  
+  
+</script>
+
+</body>
+</html>

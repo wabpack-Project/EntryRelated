@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  //静态私有成员
+  var myfun3 = (function(){
+	function privateProperty(){
+
+	}
+	privateProperty.staticvar = "这是静态私有成员";
+	privateProperty.staticmethod = function(){
+	  alert(privateProperty.staticvar);
+	}
+	privateProperty.staticmethod();
+	return privateProperty
+  })();
+
+
+  console.log(myfun3.staticvar);
+  console.log(myfun3.staticmethod);
+  
+  
+</script>
+
+</body>
+</html>

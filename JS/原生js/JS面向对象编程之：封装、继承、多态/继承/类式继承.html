@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  // 类式继承 声明父类
+  function SuperClass() {
+    this.superValue = true;
+    this.books = ["html", "js", "css"];
+  }
+  
+  // 为父类添加共有方法
+  SuperClass.prototype.getSuperValue = function () {
+    console.log("父");
+    return this.superValue;
+  }
+  
+  // 声明子类
+  function SubClass() {
+    this.subValue = false;
+  }
+  
+  // 继承父类
+  SubClass.prototype = new SuperClass();
+  
+  // 为子类添加共有方法
+  // SubClass.prototype.getSuperValue = function () {
+  //     console.log("子");
+  //   return this.subValue;
+  // }
+  //
+  
+  /**
+   *  子类继承父类的属性和方法，同时也可以随意修改父类的属性和方法
+   *  随意修改会造成一些不必要的麻烦
+   * */
+  
+  // var _SuperClass = new SuperClass();
+  //
+  // var _SubClass = new SubClass();
+  
+  var instance1 = new SubClass();
+  var instance2 = new SubClass();
+  instance2.books = [];
+  console.log(instance2.books);
+  instance1.books.push("javascript");
+  console.log(instance2.books);
+  
+  
+  
+  
+</script>
+
+</body>
+</html>

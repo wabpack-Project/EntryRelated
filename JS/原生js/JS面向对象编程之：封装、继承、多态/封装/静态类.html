@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  //静态类
+  var funcount = 0;
+  var myfun4 = new function(){
+	funcount++;
+	this.printCount = function(){
+	  console.log(funcount);
+	}
+  }
+  
+  console.log(funcount);
+  
+  myfun4.printCount(); //输出1;
+  myfun4.printCount(); //输出1;
+  myfun4.prototype.amethod = function(){
+	console.log("原型对象");
+  }//运行错误
+  var newfun5 = new myfun4();
+  newfun5.amethod();
+</script>
+
+</body>
+</html>

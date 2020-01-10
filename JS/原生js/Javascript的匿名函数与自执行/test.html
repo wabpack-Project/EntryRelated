@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  var outer = null;
+
+  (function(){
+	var one = 1, two = 2;
+	function inner (){
+	  one += 1;
+	  two = 2;
+	  two += 1;
+	  console.log(1, one);
+	  console.log(2, two);
+	}
+	outer = inner;
+  })();
+
+
+  outer();    //2
+  outer();    //3
+  outer();    //4
+  
+</script>
+
+</body>
+</html>

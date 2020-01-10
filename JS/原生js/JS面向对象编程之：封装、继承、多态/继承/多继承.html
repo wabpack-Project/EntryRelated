@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  //单继承 属性复制
+  var extend = function(target,source) {
+	//遍历源对象中的属性
+	for (var i in source) {
+	  //将源对象中的属性复制到目标对象中
+	  target[i] = source[i];
+	}
+	return target;
+  }
+  var ins1 = {
+	name : "ins1",
+	color : ["red","blue"],
+  }
+  var ins2 = {};
+  extend(ins2,ins1);
+  console.log("ins2", ins2);
+  
+  //多继承 属性复制
+  var mix = function() {
+	var i = 1,
+	  len = arguments.length,
+	  target = arguments[0],
+	  arg;
+	//遍历被继承的对象
+	for(;i < len;i++) {
+	  arg = arguments[i];
+	  for(var property in arg) {
+		target[property] = arg[property];
+	  }
+	}
+	return target;
+  }
+  var ins4 = {
+	name : "ins4",
+	color : ["red","blue"],
+	getTime : function() {
+	  console.log("time");
+	}
+  }
+  var ins5 = {
+	sex : "man",
+	height : 175
+  }
+  var ins6 = {name: "ins6"};
+  mix(ins6,ins4,ins5);
+  console.log("ins6", ins6);
+
+
+  //多继承
+  Object.prototype.mix = function() {
+	var i = 0,//注意，这里是0
+	  len = arguments.length,
+	  arg;
+	//遍历被继承的对象
+	for(;i < len;i++) {
+	  arg = arguments[i];
+	  for(var property in arg) {
+		this[property] = arg[property];
+	  }
+	}
+  }
+  var ins7 = {
+	name : "ins7",
+	color : ["red","blue"],
+	getTime : function() {
+	  console.log(0, "time");
+	}
+  }
+  var ins8 = {
+	sex : "man",
+	height : 175,
+  }
+  var ins9 = {
+	name : "ins9",
+    // aa: "aa",
+    getTime: function () {
+      console.log(1, "time");
+	}
+  };
+  ins9.mix(ins7,ins8);
+  console.log("ins9", ins9);
+  ins9.getTime();
+  var ins10 = {};
+  ins10.mix(ins7,ins8);
+  console.log(ins10);
+  
+  /**
+   * 已有属性和方法会被覆盖
+   *
+   *
+   * */
+  
+</script>
+
+</body>
+</html>

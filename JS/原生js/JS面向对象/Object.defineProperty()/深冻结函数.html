@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  /*
+  *  浅冻结：只能冻结当前对象第一层
+  *  深冻结：可以无限冻结当前对象的每一项（即对象的每个子对象）
+  *
+  * */
+  // 浅冻结
+  obj1 = {
+	internal: {}
+  };
+  obj1.aa = '0aaValue';
+  console.log(0, obj1.aa);
+  Object.freeze(obj1);
+  obj1.internal.a = 'aValue';
+  obj1.aa = '1aaValue';
+  console.log(1, obj1.aa);
+  console.log(obj1.internal.a);
+  obj1.internal.a // 'aValue'
+  console.log(obj1.internal.a);
+  
+  // 深冻结函数.
+  function deepFreeze(obj) {
+
+	// 取回定义在obj上的属性名
+	var propNames = Object.getOwnPropertyNames(obj);
+
+	// 在冻结自身之前冻结属性
+	propNames.forEach(function(name) {
+	  var prop = obj[name];
+
+	  // 如果prop是个对象，冻结它
+	  if (typeof prop == 'object' && prop !== null)
+		deepFreeze(prop);
+	});
+
+	// 冻结自身(no-op if already frozen)
+	return Object.freeze(obj);
+  }
+
+  obj2 = {
+	internal: {},
+    aa: "11"
+  };
+  console.log(obj2.internal);
+  obj2.internal.a = "78";
+  console.log(obj2.internal.a);
+  deepFreeze(obj2);
+  obj2.internal.a = 'anotherValue';
+  console.log(obj2.internal.a);
+  obj2.internal.a; // undefined
+  console.log(obj2.internal.a);
+</script>
+
+</body>
+</html>

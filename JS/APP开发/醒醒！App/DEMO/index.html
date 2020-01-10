@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+  <script src="mshare.js"></script>
+  
+</head>
+<body>
+
+<button data-mshare="0">点击弹出原生分享面板</button>
+<button data-mshare="1">点击触发朋友圈分享</button>
+<button data-mshare="2">点击触发发送给微信朋友</button>
+<a href="weixin://">点击唤醒微信</a>
+<a href="javascript:window.location.href='weixin://'">javascript:window.location.href='weixin://' </a>
+<a href="weixin://">weixin:// </a>
+<script>
+	var mshare = new mShare({
+		title: '齐枫---csdn',  //分享发标题
+		url: 'https://blog.csdn.net/qiphon3650',   ///分享的连接
+		desc: '一个追求技术的码农',  /// 分享的 描述
+		img: 'http://1.jpg/150x150'   ///分享的图片
+	});
+	$('button').click(function () {
+		// 1 ==> 朋友圈  2 ==> 朋友  0 ==> 直接弹出原生
+		mshare.init(+$(this).data('mshare'));
+	});
+</script>
+
+</body>
+</html>

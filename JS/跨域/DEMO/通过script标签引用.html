@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+	var callbackfunction = function(data) {
+		console.log('我是跨域请求来的数据-->' + data.name);
+	};
+</script>
+<script src="http://note.youdao.com/yws/api/personal/file/WEB27993ded22f45b5773ab95efeaf4e70e?method=download&inline=true&shareKey=f14ac635e1875a6e1d804f056c592886&from=0&time=1558074201918&callback=callbackfunction"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+</head>
+<body>
+
+<script>
+	var extend = (function() {
+		var isObjFunc = function(name) {
+			var toString = Object.prototype.toString
+			return function() {
+				return toString.call(arguments[0]) === '[object ' + name + ']'
+			}
+		}
+
+			var isObjFunc1 = function(name) {
+				var toString = Object.prototype.toString
+				function () {
+					return toString.call(arguments[0]) === '[object ' + name + ']'
+				}
+			}
+			
+		var   isObject = isObjFunc('Object'),
+			isArray = isObjFunc('Array'),
+			isBoolean = isObjFunc('Boolean')
+			isFunc1 = isObjFunc('Function')
+      isFunc = function () {
+				isObjFunc1('Function')
+			};
+		return function extend() {
+			var index = 0,isDeep = false,obj,copy,destination,source,i
+			if(isBoolean(arguments[0])) {
+				index = 1
+				isDeep = arguments[0]
+			}
+			for(i = arguments.length - 1;i>index;i--) {
+				destination = arguments[i - 1]
+				source = arguments[i]
+				if(isObject(source) || isArray(source)) {
+					console.log(source)
+					for(var property in source) {
+						obj = source[property]
+						if(isDeep && ( isObject(obj) || isArray(obj) ) ) {
+							copy = isObject(obj) ? {} : []
+							var extended = extend(isDeep,copy,obj)
+							destination[property] = extended
+						}else {
+							destination[property] = source[property]
+						}
+					}
+				} else {
+					destination = source
+				}
+			}
+			return destination
+		}
+	})();
+
+		var a = {name:1}
+		var b = {name:2}
+		var c = {name:3}
+		var d = {name:4}
+		
+		var  cc = $.extend({},a,b,d, {name:[a,d,c],value:a}, {name:[a,b,c],value:d})
+		console.log("2", cc)
+		console.log("2", a)
+		console.log("2", b)
+		// extend(true,a,b,{name:[a,d,c],value:a})
+	// 	aa = extend({},a,b,d, {name:[a,d,c],value:a})
+    // // bb = extend({},a,b,c,d)
+	// 	console.log("1", a)
+    // // console.log(aa);
+	// 	console.log("1", a.name[0] === a) // false
+	// 	console.log("1", a.value === a) // false
+	
+</script>
+
+</body>
+</html>

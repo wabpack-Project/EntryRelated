@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script>
+  
+  // 原型式继承
+  function inheritObject(o) {
+    // 声明一个过渡函数对象
+    function F() {
+      
+	}
+    // 过渡对象的原型继承父对象
+    F.prototype = o;
+    // 返回过渡对象的一个实例，该实例的原型继承可父对象
+    return new F();
+  }
+  
+  var book = {
+    name: "js book",
+    test: "hahaha",
+    alikeBook: ["css book", "html book"]
+  }
+  
+  var newBook = inheritObject(book);
+  newBook.name = "ajax book";
+  newBook.test = "ajax hahaha";
+  newBook.alikeBook.push("xml book");
+  // newBook.alikeBook = ["aa book"];
+  newBook.alikeBook[1] = "asdfasd";
+  
+  var otherBook = inheritObject(book);
+  otherBook.name = "flash book";
+  otherBook.alikeBook.push("as book");
+  otherBook.alikeBook = ["11"];
+  // delete newBook.alikeBook[0];
+  // delete otherBook.alikeBook[0];
+
+  // book.name = "aa";
+  
+  console.log(newBook.name);
+  console.log(newBook.test);
+  console.log(newBook.alikeBook);
+  console.log(otherBook.name);
+  console.log(otherBook.test);
+  console.log(otherBook.alikeBook);
+  console.log(book.name);
+  console.log(book.test);
+  console.log(book.alikeBook);
+  // delete newBook[0];
+  
+  
+  /**
+   *  基本类型（也叫不可改变类型）包括：undefined，boolean，number，string，null
+   *  原型式继承是浅拷贝，不能改变基本类型的值。而数组不是基本类型所以可以改变。
+   *  浅拷贝的对象和原对象指向的是同一个数组所以可以改变
+   *
+   * */
+  //
+  console.log("----------------------------------");
+
+  function object(o) {
+	function F() { }
+	F.prototype = o;
+	return new F();
+  }
+
+  var person = {
+	name: 'yzy',
+	friends: ['bbc', 'Nick', 'Tim'],
+    handle: function () {
+      console.log("方法！！！");
+	}
+  }
+
+  var anotherPerson = object(person);
+  anotherPerson.name = 'Greg';
+  anotherPerson.friends.push('Bob');
+  anotherPerson.friends = [];
+  
+  var anotherPerson2 = object(person);
+  anotherPerson2.name = 'Jack';
+  anotherPerson2.friends.push('Rose');
+  anotherPerson2.friends = [];
+
+  console.log(person.friends);  // bbc,Nick,Tim,Bob,Rose
+  console.log(anotherPerson2);
+  console.log(anotherPerson);
+  console.log(anotherPerson.handle);
+
+</script>
+
+</body>
+</html>

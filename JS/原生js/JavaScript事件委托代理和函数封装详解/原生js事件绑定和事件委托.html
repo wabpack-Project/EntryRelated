@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div class="test" ><div class="childElement">childElement</div>点我有惊喜！！！</div>
+
+<div class="test" >点我有惊喜1！！！</div>
+
+<div class="test2" ><div class="childElement">childElement</div>点我有惊喜2！！！</div>
+
+<script>
+	/**
+	 * 事件绑定和事件委托
+	 * 类似jQuery的on/off/one的用法
+	 * @author mo
+	 * @param eventName 事件名称
+	 * @param selector 委托的子元素，可以为空
+	 * @param callback 事件逻辑代码
+	 * @description 在选择的元素上直接用on/off/one就好了,同时存在自身绑定事件和委托事件的，如需解绑，要分别解绑，仅off选择元素的事件是不会解绑代理的事件的
+	 * @example
+	 *
+	 * var test = document.querySelector('.test')
+	 *
+	 * test.on('click', function () {
+	 *    // TODO
+	 * })
+	 *
+	 * test.one('click', function () {
+	 *    // TODO
+	 * })
+	 *
+	 * test.on('click', '.childElement', function () {
+	 *    // TODO
+	 * })
+	 *
+	 * test.off('click')
+	 *
+	 * test.off('click', '.childElement')
+	 *
+	 */
+
+	var p_n_space = /(^\s*)|(\s*$)/g, // 前后空格正则
+		bind_list = {} // 绑定事件列表
+
+	HTMLElement.prototype.on = function(eventName, selector, callback) {
+
+		// 预处理参数
+		if (!eventName || !selector) {
+			console.log('Arguments is require!')
+			return false
+		} else {
+
+			eventName = eventName.toLowerCase()
+
+			if (typeof selector == 'function') {
+				callback = selector
+				selector = null
+			}
+		}
+			console.log(0, callback);
+		// 事件绑定逻辑
+
+		if (!bind_list.eventName) bind_list.eventName = []
+
+		bind_list.eventName.push({
+			selector: selector,
+			fn: function(event) {
+
+				var ev = event || window.event,
+					target = ev.target || ev.srcElement,
+					targets, sSets, i = j = 0
+
+				if (!selector) {
+
+					// 当前元素绑定
+					callback.apply(this, [ev])
+console.log(callback);
+					if (this.once) {
+						delete this.once
+						this.off(eventName, callback)
+					}
+
+				} else {
+
+					targets = selector.split(',')
+
+					for (; i < targets.length; i++) {
+
+						// 删除前后空格
+						targets[i] = targets[i].replace(p_n_space, '')
+
+						// 遍历集合
+						sSets = this.querySelectorAll(targets[i])
+
+						// 如果集合为空则说明不存在这种委托元素，不做处理
+						if (sSets.length) {
+							// 关系拆分
+							// targets[i] = targets[i].split(/\s+/g).reverse()
+
+							// 事件委托
+							for (var j = 0; j < sSets.length; j++) {
+								if (target === sSets[j]) {
+
+									callback.apply(target, [ev])
+																	console.log(callback);
+									if (this.once) {
+										delete this.once
+										this.off(eventName, selector, callback)
+									}
+
+									break;
+								}
+							}
+
+						} else {
+							return false
+						}
+
+					}
+
+				}
+			}
+		})
+			console.log(bind_list.eventName[bind_list.eventName.length - 1].fn);
+		// 所有事件，包括委托事件都绑定到目标元素本身
+		if (this.addEventListener) {
+			this.addEventListener(eventName, bind_list.eventName[bind_list.eventName.length - 1].fn, false);
+		} else if (this.attachEvent) {
+			this.attachEvent("on" + eventName, bind_list.eventName[bind_list.eventName.length - 1].fn);
+		}
+
+	}
+
+	// 移除全部事件
+	HTMLElement.prototype.off = function(eventName, selector) {
+
+		if (!selector) selector = null
+
+		// 预处理参数
+		if (!eventName) {
+			console.log('Arguments is require!')
+			return false
+		} else {
+
+			eventName = eventName.toLowerCase()
+
+		}
+
+
+		// 遍历已添加列表
+		for (var k = 0; k < bind_list.eventName.length; k++) {
+			// 仅移除相关的事件，分目标元素和委托元素绑定的事件
+			if (bind_list.eventName[k] && selector == bind_list.eventName[k].selector) {
+				if (this.removeEventListener) {
+					this.removeEventListener(eventName, bind_list.eventName[k].fn, false);
+				} else if (this.detachEvent) {
+					this.detachEvent("on" + eventName, bind_list.eventName[k].fn);
+				}
+			}
+
+			// 移除
+			bind_list.eventName[k] = null
+		}
+
+
+	}
+
+	// 一次性事件
+	HTMLElement.prototype.one = function(eventName, selector, callback) {
+		this.once = true
+		this.on(eventName, selector, callback)
+	}
+</script>
+
+<script>
+	// querySelector() 方法仅仅返回匹配指定选择器的第一个元素
+	 var test = document.querySelector('.test');
+		var test2 = document.querySelector('.test2');
+		 // test.on('click', function () {
+		 //    // TODO
+         //   console.log(1);
+			// 		 // test.off('click')
+		 // })
+         //
+		// test2.one('click', function () {
+		//     // TODO
+		// 			 console.log(2);
+		//  })
+         //
+		test.one('click', '.childElement', function () {
+			// TODO
+			console.log(1);
+		});
+
+		test2.one('click', '.childElement', function () {
+			// TODO
+			console.log(2);
+		});
+   
+		 // test.on('click', '.childElement', function () {
+		 //    // TODO
+			// 		 console.log(1);
+		 // })
+         //
+		 // test.off('click')
+         //
+		 // test.off('click', '.childElement')
+</script>
+
+</body>
+</html>

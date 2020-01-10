@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+
+<div id="tests" class="a b c ccc" style="color:#f00">123</div>
+
+<script>
+	function addClasss(ele,txt){
+		var str =  ele.className;
+
+		console.log(str);
+
+		ele.className += txt;
+
+
+	}
+
+    function removeClasss(ele,txt){
+        var str =  ele.className,
+            index = str.indexOf(txt);
+        if(index > -1){
+
+            ele.className = str.replace(txt,"");
+
+        }
+
+    }
+
+		function addClass(obj, cls){
+			var obj_class = obj.className,//获取 class 内容.
+				blank = (obj_class != '') ? ' ' : '';//判断获取到的 class 是否为空, 如果不为空在前面加个'空格'.
+			added = obj_class + blank + cls;//组合原来的 class 和需要添加的 class.
+			obj.className = added;//替换原来的 class.
+		}
+    
+    var dom = document.getElementById("tests");
+		// addClasss(dom, "ccc");
+
+		addClass(dom, "ccc");
+		
+</script>
+
+</body>
+</html>
