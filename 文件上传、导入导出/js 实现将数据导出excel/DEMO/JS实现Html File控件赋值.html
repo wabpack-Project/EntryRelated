@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+  <TITLE> 冲击多个Input File赋值兼解决中文赋值问题 </TITLE>
+  <meta charset="UTF-8">
+  <SCRIPT LANGUAGE="JavaScript">
+		//简化写法
+		function $(id)
+		{
+			return document.getElementById(id);
+		}
+		//崋值方法(就是将文本框的值赋值file对象)
+		function set1()
+		{
+			//将text1中的值复制到剪贴板中
+			window.clipboardData.setData('text',$('t1').value);
+			//创建Shell(需要添加到信任站点或解除未签名的ActiveX控件的禁用
+			var   WshShell=new   ActiveXObject("WScript.Shell");
+			//拿到焦点
+			$('f1').focus();
+			//Ctrl + A 操作
+			WshShell.sendKeys("^a");
+			//Ctrl + V 操作(sendKeys对于中文赋值操作显得无力,所以只能模拟键盘操作)
+			WshShell.sendKeys("^v");
+		}
+
+		function set2()
+		{
+			window.clipboardData.setData('text',$('t2').value);
+			var   WshShell=new   ActiveXObject("WScript.Shell");
+			$('f2').focus();
+			WshShell.sendKeys("^a");
+			WshShell.sendKeys("^v");
+		}
+
+		function set3()
+		{
+			window.clipboardData.setData('text',$('t3').value);
+			var   WshShell=new   ActiveXObject("WScript.Shell");
+			$('f3').focus();
+			WshShell.sendKeys("^a");
+			WshShell.sendKeys("^v");
+		}
+
+		function set4()
+		{
+			window.clipboardData.setData('text',$('t4').value);
+			var   WshShell=new   ActiveXObject("WScript.Shell");
+			$('f4').focus();
+			WshShell.sendKeys("^a");
+			WshShell.sendKeys("^v");
+		}
+		//给当前网页中四个file对象赋值的方法
+		function set()
+		{
+			//此处不要用循环,有几个就需要写几个setXX方法
+			setTimeout("set1()",0);
+			setTimeout("set2()",70);
+			setTimeout("set3()",240);
+			setTimeout("set4()",340);
+		}
+		//检查是否赋值成功
+		function check()
+		{
+			//检查每个file对象是否为空
+			if($('f1').value.length > 0 && $('f2').value.length > 0 && $('f3').value.length > 0 && $('f4').value.length > 0 )
+			{
+				//检查原对象的值的赋值对象的值是否相同
+				if($('f1').value == $('t1').value && $('f2').value == $('t2').value && $('f3').value == $('t3').value && $('f4').value == $('t4').value)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		//赋值和file对象的检查
+		function setValues()
+		{
+			if(!check())
+			{
+				set();
+			}
+		}
+		//直接调用的赋值方法
+		function callSet()
+		{
+			//一定要用setInterval,而不能用循环(循环太快,会造成所有的值赋在一个file对象上)
+			setInterval('setValues()',1000);
+		}
+  
+  </SCRIPT>
+</HEAD>
+
+<BODY>
+<input type=text value='c:\a好.jpg' id='t1' /> <br />
+<input type=text value='b:\b不好.jpg' id='t2'/> <br />
+<input type=text value='c:\c好.jpg' id='t3'/> <br />
+<input type=text value='d:\c很好.jpg' id='t4'/> <br />
+
+<input type=file id='f1'/> <br />
+<input type=file id='f2'/> <br />
+<input type=file id='f3'/> <br />
+<input type=file id='f4'/> <br />
+
+<input type='button' id='btn1' οnclick='callSet();' value='测试'>
+</BODY>
+</HTML>

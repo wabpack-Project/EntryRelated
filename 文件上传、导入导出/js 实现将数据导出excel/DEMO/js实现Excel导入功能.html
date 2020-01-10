@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+
+<input  id="articleImageFile" name="excelFile" type="file" class="x-file" onchange="importExcel(this)">
+<button  id="saveZipButton" type="button" class="btn" onclick="document.getElementById('articleImageFile').click();"><i class="fa fa-download"></i>  导入</button>
+<script src="jquery-1.10.2.min.js"></script>
+<script src="xlsx.full.min.js"></script>
+<script>
+	// 导入功能
+	var importExcel = function(obj){
+		var formData = new FormData();
+		var name = $("#articleImageFile").val();
+		formData.append("file",$("#articleImageFile")[0].files[0]);
+		formData.append("name",name);//可以使用formData.append()传递多个参数
+		$.ajax({
+			url :   win.utils.services.importPartsList,
+			type : 'POST',
+			async : false,
+			data : formData,
+			// 告诉jQuery不要去处理发送的数据
+			processData : false,
+			// 告诉jQuery不要去设置Content-Type请求头
+			contentType : false,
+			beforeSend:function(){
+				console.log("正在进行，请稍候");
+			},
+			success : function(result) {
+				if(result.result_code==200){
+					utils.showMessage('导入成功！');
+					parts_manage.refresh();
+				}
+				else if(result.result_code==999){
+					utils.showMessage(result.description+'，请重试！');
+				}
+				else{
+					utils.showMessage('导入失败，请重试！');
+				}
+			}
+		});
+	}
+</script>
+
+</body>
+</html>

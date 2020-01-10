@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div  >
+  <input type="file" name="FileUpload" id="FileUpload">
+  <a class="layui-btn layui-btn-mini" id="btn_uploadimg">上传图片</a>
+</div>
+
+
+<form id="form" action="http://h.lk.cn/ajax_upload_batch_input" method="post" enctype="multipart/form-data" >
+  <input type="file" name="file" id="FileUpload1">
+</form>
+
+<div  >
+  <input type="file" name="FileUpload" id="FileUpload2">
+  <a class="layui-btn layui-btn-mini" id="btn_uploadimg2">上传图片</a>
+</div>
+
+<div  >
+  <input type="file" name="FileUpload" id="FileUpload3" value="C:\Users\Administrator\Desktop\批量入库.xls">
+  <a class="layui-btn layui-btn-mini" id="btn_uploadimg3">上传图片</a>
+</div>
+
+<script src="jquery-1.10.2.min.js" ></script>
+<script src="./imexport/config.js" ></script>
+<script>
+$(function () {
+
+	function createXmlHttpRequest(){
+
+		var xmlHttp ;
+
+		try{
+
+			//FF,Opera,Safari
+
+			xmlHttp = new XMLHttpRequest();
+
+		}catch(e){
+
+			try{
+
+				//支持IE6.0+
+
+				xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+
+			}catch(e){
+
+				try{
+
+					//支持IE5.5+
+
+					xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+				}catch(e){
+
+					alert("提示: 您的浏览器暂时不支持Ajax请求!");
+
+					return false;
+
+				}
+
+			}
+
+		}
+
+		return xmlHttp;
+
+	}
+	
+	var File = {
+		lastModified: 1567502164458,
+		lastModifiedDate: "Tue Sep 03 2019 17:16:04",
+		name: "批量入库.xls",
+		size: 22016,
+		type: "",
+		webkitRelativePath: "",
+	};
+
+/**
+ * 把本地文件信息和网络文件信息读取，发送
+ *
+ * */
+	function fileUpload() {
+   
+			// http://tjph.lk.cnc/i/tmp/公卫居民档案-201909021708111445.csv
+			var xmlHttp;
+			if (window.ActiveXObject){ //支持-通过ActiveXObject的一个新实例来创建XMLHttpRequest对象
+				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+			} else if(window.XMLHttpRequest){
+				xmlHttp = new XMLHttpRequest();
+			}
+
+			var fso = $("#FileUpload3")[0];
+
+			var fso1 = new ActiveXObject("Scripting.FileSystemObject");
+
+			// var f1 = fso.GetFile("C:\\Users\\Administrator\\Desktop\\批量入库.xls");
+			
+		// $("#FileUpload3").val("http://tjph.lk.cnc/i/tmp/公卫居民档案-201909021708111445.csv");
+        var formFile = new FormData();
+        // formFile.append("action", "UploadVMKImagePath");
+        formFile.append("file", fso.files[0]); //加入文件对象
+        console.log(formFile);
+        var data = formFile;
+        $.ajax({
+            url: $.ajaxConfig.reqUrl("ajax_upload_batch_input"),
+            data: data,
+            type: "Post",
+            dataType: "json",
+            cache: true,//上传文件无需缓存
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (res) {
+                console.log(res.msg);
+                // alert("上传完成!");
+            },
+        });
+    }
+	fileUpload();
+	
+	// 按钮触发文件上传
+    $("#btn_uploadimg2").click(function () {
+      $("#FileUpload2").click();
+		});
+	
+	// form提交方式
+	var file = document.getElementById("FileUpload1");
+	file.onchange = function() {
+			$("#form").submit();
+		};
+  
+	// file改变方法
+	var file = document.getElementById("FileUpload");
+	file.onchange = function() {
+		var _this = this;
+		console.log(_this);
+
+        var formFile = new FormData();
+        // formFile.append("action", "UploadVMKImagePath");
+        formFile.append("file", this.files[0]); //加入文件对象
+        console.log(formFile);
+        var data = formFile;
+        $.ajax({
+            url: $.ajaxConfig.reqUrl("ajax_upload_batch_input"),
+            data: data,
+            type: "Post",
+            dataType: "json",
+            cache: true,//上传文件无需缓存
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (res) {
+            	console.log(res.msg);
+                // alert("上传完成!");
+            },
+        });
+	};
+	
+    $("#btn_uploadimg").click(function () {
+        var fileObj = document.getElementById("FileUpload"); // js 获取文件对象
+      console.log(fileObj);
+        if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+            alert("请选择图片");
+            return;
+        }
+        var formFile = new FormData();
+        formFile.append("action", "UploadVMKImagePath");
+        formFile.append("file", fileObj); //加入文件对象
+
+        var data = formFile;
+        $.ajax({
+            url: "/Admin/Ajax/VMKHandler.ashx",
+            data: data,
+            type: "Post",
+            dataType: "json",
+            cache: false,//上传文件无需缓存
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (result) {
+                alert("上传完成!");
+            },
+        })
+    })
+});
+</script>
+
+
+</body>
+</html>

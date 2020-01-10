@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="./xlsx.full.min.js"></script>
+    <title>js导入导出excel</title>
+</head>
+<body>
+<input type="file" id="file">
+
+<a href="javascript:void(0)" id="export">导出</a>
+</body>
+</html>
+<script type="text/javascript" src="./imex_port.js"></script>
+<script>
+    window.onload = function () {
+        var file = document.getElementById("file")
+        var exp = document.getElementById("export")
+        file.onchange = function() {
+            var _this = this;
+            // 需要注意要导入的Excel文件最好把数据格式转为文本格式
+            imExPortPlugin.import({
+                "dom":_this,// 导入文件时的input dom
+                "format":[
+                    {"old":"序号","new":"id"},
+                    {"old":"时间","new":"time"},
+                    {"old":"操作员","new":"operator"},
+                    {"old":"内容","new":"content"},
+                ],
+                "success":function (res) {
+                    console.log("最终结果",res)
+
+                }//导入成功后的回调
+            })
+        }
+
+        exp.onclick = function () {
+            var _this = this;
+            imExPortPlugin.export({
+                "data":[
+                    {"id":1,"time":"2018-08-01"},
+                    {"id":2,"time":"2018-08-02"},
+                    {"id":3,"time":"2018-08-03"},
+                    {"id":4,"time":"2018-08-04"},
+                    {"id":5,"time":"2018-08-05"}
+                ],
+                "format":[
+                    {"old":"id","new":"序号"},
+                    {"old":"time","new":"时间"},
+                ],
+                "dom":_this,
+                "filename":"测试文件.xlsx",
+                "success":function () {
+                    console.log("导出成功")
+                }
+            })
+        }
+
+    }
+</script>
