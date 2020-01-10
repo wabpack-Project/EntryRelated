@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+< a href="weixin://qr/gh_103eed4f29f2">点击这里添加关注我们公众号</ a>　<br><br>以上方法微信都已禁止<br><br>
+
+<a href="weixin://qr/gh_103eed4f29f2" >点击这里添加关注我们公众号</a>
+
+<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU4NDgzNDgxNw==&scene=126&bizpsid=0#wechat_redirect" >点击这里添加关注我们公众号1</a>
+<br>
+<a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU4NDgzNDgxNw==#wechat_redirect" >点击这里添加关注我们公众号2</a>
+
+<img src="<?= $C->OUTSIDE_SITE_URL ?>themes/simplicity/images/mobile_iphone/xl-1.png" >
+<script>
+	Lc1 = {
+      wxSignPackage: {
+          appId: "",
+          nonceStr: "",
+          timestamp: "",
+          signature: ""
+      }
+    };
+</script>
+<!-- 引入微信js-sdk文件 -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<!-- 通过config接口注入权限验证配置 -->
+<script src="wxRealize.js" ></script>
+<script>
+  var wxSignPackage = {
+        appId: "wxa1d83c73d2cc1a7b",
+        nonceStr: "lancare123456",
+        timestamp: 1548922049,
+        signature: "2a0ef9a85efa233eee94d39bf8b7e5af79fa7171"
+    },
+    shareData = {
+        title: "title",
+        desc: "desc",
+        link: "link",
+        imgUrl: "imgUrl",
+        success: function () {
+            // 设置成功
+            console.log("分享成功！！！");
+        }
+    };
+	window.onload= function() {
+      Lc.onload(wxSignPackage, shareData);
+    };
+  
+</script>
+</body>
+</html>
