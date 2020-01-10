@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+
+<input type="text" id="" onblur="this.value=this.value.replace(/^([1-9][0-9]*)+(.[0-9]{1,2})?$/,'$1')" />
+
+<script>
+	var reg = /^([1-9][0-9]*)+(.[0-9]{1,2})?$/;
+	var one = "01.20";
+	var two = "3.10";
+	var three = "3.1415";
+		var four = "sdfsdfsd";
+	console.log(reg.test(one));
+	console.log(reg.test(two));
+	console.log(reg.test(three))
+		console.log(reg.test(four))
+</script>
+
+</body>
+</html>
