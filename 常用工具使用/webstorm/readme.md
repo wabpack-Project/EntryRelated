@@ -10,6 +10,10 @@ https://www.cnblogs.com/jkr666666/p/7358671.html
 ### 怎么设置Phpstorm字体大小及样式
 https://www.php.cn/tool/phpstorm/413569.html
 
+### jetbrains-agent.jar激活失败 phpstorm永久激活方式
+https://www.jianshu.com/p/500c9ae81cad
+
+
 
 
 
